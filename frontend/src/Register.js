@@ -21,7 +21,7 @@ function Register() {
     }
   };
   return (
-    <div className="container mt-5" style={{ maxWidth: "400px" }}>
+    <div className="container-fluid mt-5">
       <h2 className="mb-4 text-center">Register</h2>
       <form onSubmit={handleSubmit}>
         <div className="mb-3">
