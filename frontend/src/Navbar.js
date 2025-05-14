@@ -1,5 +1,5 @@
-import { Link, useLocation } from "react-router-dom";
-import { useEffect, useState, useContext } from "react";
+import { Link } from "react-router-dom";
+import { useContext } from "react";
 import { AuthContext } from "./contexts/authContext";
 
 const Navbar = () => {
@@ -18,6 +18,11 @@ const Navbar = () => {
                 <li className="nav-item">
                   <Link className="nav-link" to="/dashboard">
                     Dashboard
+                  </Link>
+                </li>
+                <li className="nav-item">
+                  <Link className="nav-link" to="/blogs">
+                    Blogs
                   </Link>
                 </li>
                 <li className="nav-item">

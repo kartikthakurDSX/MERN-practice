@@ -79,7 +79,7 @@ const handleFileChange = (e) => {
   if (!user) return <div className="container mt-5">Loading Profile...</div>;
 
   return (
-    <div className="container mt-5" style={{ maxWidth: "500px" }}>
+    <div className="container mt-5">
       <h3 className="mb-4">User Profile</h3>
       {user.avatar && (
         <div className="mb-3">
