@@ -1,4 +1,4 @@
-import { useState, useEffect, useContext } from "react";
+import { useState, useContext } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { jwtDecode } from 'jwt-decode';
@@ -8,10 +8,10 @@ function Login() {
   const navigate = useNavigate();
   const {login} = useContext(AuthContext);
 
-  useEffect(() => {
-    const token = localStorage.getItem("token");
-    if (token) navigate("/dashboard");
-  }, [navigate]);
+  // useEffect(() => {
+  //   const token = localStorage.getItem("token");
+  //   if (token) navigate("/dashboard");
+  // }, [navigate]);
 
   const [form, setForm] = useState({ username: "", password: "" });
   const handleChange = (e) => {

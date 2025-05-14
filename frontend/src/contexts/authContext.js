@@ -1,3 +1,4 @@
+// authContext.js
 import { createContext, useState, useEffect } from "react";
 import {jwtDecode} from "jwt-decode";
 
@@ -10,28 +11,7 @@ export const AuthProvider = ({ children }) => {
     role: null,
   });
 
-  const isTokenValid = (token) => {
-    try {
-      const decoded = jwtDecode(token);
-      const currentTime = Date.now() / 1000;
-      return decoded.exp > currentTime;
-    } catch {
-      return false;
-    }
-  };
-
-  useEffect(() => {
-    const token = localStorage.getItem("token");
-    const username = localStorage.getItem("username");
-    const role = localStorage.getItem("role");
-
-    if (token && isTokenValid(token)) {
-      setAuth({ token, username, role });
-    } else {
-      localStorage.clear();
-      setAuth({ token: null, username: null, role: null });
-    }
-  }, []);
+  const [loading, setLoading] = useState(true); // new
 
   const login = (token, username, role) => {
     localStorage.setItem("token", token);
@@ -45,8 +25,33 @@ export const AuthProvider = ({ children }) => {
     setAuth({ token: null, username: null, role: null });
   };
 
+  // 🔐 Check token validity on first load
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+
+    if (token) {
+      try {
+        const decoded = jwtDecode(token);
+        const isExpired = decoded.exp * 1000 < Date.now();
+
+        if (isExpired) {
+          logout();
+        } else {
+          setAuth({
+            token,
+            username: localStorage.getItem("username"),
+            role: localStorage.getItem("role"),
+          });
+        }
+      } catch (err) {
+        logout(); // invalid token
+      }
+    }
+    setLoading(false);
+  }, []);
+
   return (
-    <AuthContext.Provider value={{ auth, login, logout }}>
+    <AuthContext.Provider value={{ auth, login, logout, loading }}>
       {children}
     </AuthContext.Provider>
   );
